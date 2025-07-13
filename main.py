@@ -2,7 +2,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 
-matplotlib.use('TkAgg')
+matplotlib.use('Agg')
 
 nombres = {
     'Emi': 488000,
@@ -66,4 +66,5 @@ plt.xlabel('Empleado')
 plt.ylabel('Cantidad en pesos')
 plt.xticks(x, nombres_list)
 plt.legend()
-plt.show()
+plt.savefig('comparison_chart.png')
+plt.close()
