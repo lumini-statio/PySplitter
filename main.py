@@ -49,17 +49,17 @@ bar_dinero = plt.bar([i + width / 2 for i in x], dinero_correspondido, width=wid
 # Sueldos sobre las barras
 for i, bar in enumerate(bar_sueldos):
     plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 2000,
-             f'${sueldos[i]:,.0f}', ha='center', va='bottom', fontsize=10)
+             f'${sueldos[i]}', ha='center', va='bottom', fontsize=10)
 
 # porcentajes sobre las barras
 for i, bar in enumerate(bar_dinero):
     plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 25000,
-             f'{porcentajes[i]:.2f}%', ha='center', va='bottom', fontsize=10)
+             f'{porcentajes[i]}%', ha='center', va='bottom', fontsize=10)
 
 # dinero correspondiente sobre las barras
 for i, bar in enumerate(bar_dinero):
     plt.text(bar.get_x() + bar.get_width() / 2, bar.get_height(),
-             f'${dinero_correspondido[i]:,.0f}', ha='center', va='bottom', fontsize=10)
+             f'${dinero_correspondido[i]}', ha='center', va='bottom', fontsize=10)
 
 plt.title('Comparación de Sueldos y Distribución del Dinero del Alquiler')
 plt.xlabel('Empleado')
