@@ -1,7 +1,7 @@
 import matplotlib
 import matplotlib.pyplot as plt
 
-
+# configuracion backend
 matplotlib.use('Agg')
 
 nombres = {
@@ -16,7 +16,7 @@ nombres_list = list(nombres.keys())
 porcentajes = []
 dinero_correspondido = []
 
-
+# se agregan los sueldos a una lista
 for _, item in enumerate(nombres.items()):
     sueldos.append(float(item[1]))
 
