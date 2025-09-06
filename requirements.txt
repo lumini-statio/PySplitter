@@ -1,2 +1,4 @@
 #python 3.12.11
-matplotlib==3.10.3
+plotly==6.3.0
+flet==0.28.3
+flet-desktop==0.28.3
