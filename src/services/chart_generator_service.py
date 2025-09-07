@@ -1,24 +1,21 @@
 import plotly.graph_objs as go
-import plotly.graph_objs.bar
 
 
-def calculate_charts(alquiler: float, values: dict):
+def calculate_charts(alquiler: float, values: dict) -> go.Figure:
     nombres_list = list(values.keys())
     sueldos = list(values.values())
     porcentajes = []
     dinero_correspondido = []
 
-    # Suma total de todos los sueldos
     suma_total = round(sum(sueldos), 2)
 
-    # Calcular porcentajes y dinero correspondiente
+    # calculate porcentages
     for sueldo in sueldos:
         porcentaje = round((sueldo / suma_total) * 100, 2)
         porcentajes.append(porcentaje)
         dinero = round((porcentaje / 100) * alquiler, 2)
         dinero_correspondido.append(dinero)
 
-    # Crear gráfico de barras con Plotly
     trace_sueldos = go.Bar(
         x=nombres_list,
         y=sueldos,
