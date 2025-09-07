@@ -1,5 +1,5 @@
-from flet.plotly_chart import PlotlyChart
 import plotly.graph_objs as go
+import plotly.graph_objs.bar
 
 
 def calculate_charts(alquiler: float, values: dict):
@@ -23,15 +23,25 @@ def calculate_charts(alquiler: float, values: dict):
         x=nombres_list,
         y=sueldos,
         name='Sueldos',
+        text=[f'{n}' for n in values.values()],
         marker=dict(color='skyblue')
     )
 
+    trace_porcentaje = go.Bar(
+        x=nombres_list,
+        y=dinero_correspondido,
+        name='Porcentaje Correspondido',
+        marker=dict(color='lightgreen'),
+        text=[f'{p}%' for p in porcentajes],
+        textfont=dict(size=12),
+    )
+    
     trace_dinero = go.Bar(
         x=nombres_list,
         y=dinero_correspondido,
         name='Dinero Correspondido',
-        marker=dict(color='lightgreen'),
-        text=[f'{p}%' for p in porcentajes],
+        marker=dict(color='violet'),
+        text=[f'{d}' for d in dinero_correspondido],
         textposition='outside'
     )
 
@@ -42,6 +52,6 @@ def calculate_charts(alquiler: float, values: dict):
         barmode='group'
     )
 
-    fig = go.Figure(data=[trace_sueldos, trace_dinero], layout=layout)
+    fig = go.Figure(data=[trace_sueldos, trace_porcentaje, trace_dinero], layout=layout)
 
     return fig

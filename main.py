@@ -1,4 +1,4 @@
-from src.views.config_view import config_view
+from src.views.main_view import main
 import flet as ft
 
 

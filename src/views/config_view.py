@@ -1,65 +1,53 @@
 import flet as ft
-from flet.plotly_chart import PlotlyChart
-from src.services.chart_generator_service import calculate_charts
+from src.models.data import SharedData
 
 
-def Config_view(page: ft.Page):
-    page.title = "Cálculo del Alquiler"
-    page.window_width = 800
-    page.window_height = 600
-    page.window_resizable = True
-    page.window_maximizable = True
-    page.window_minimizable = True
+def config_view(page: ft.Page, shared_data: SharedData):
+    alquiler = ft.TextField(label='Alquiler', input_filter=ft.NumbersOnlyInputFilter())
 
-    page.bgcolor = ft.Colors.GREY_300
+    personas_column = ft.Column(spacing=20)
+    personas_inputs = []
 
-    alquiler = ft.TextField(label='Sueldo', input_filter=ft.NumbersOnlyInputFilter())
+    def agregar_persona(e=None):
+        nombre_field = ft.TextField(label="Nombre", input_filter=ft.TextOnlyInputFilter(), expand=True)
+        sueldo_field = ft.TextField(label="Sueldo", input_filter=ft.NumbersOnlyInputFilter(), expand=True)
 
-    persona1_nombre = ft.TextField(label='Nombre', input_filter=ft.TextOnlyInputFilter())
-    persona1_sueldo = ft.TextField(label='Sueldo', input_filter=ft.NumbersOnlyInputFilter())
+        row = ft.Row([nombre_field, sueldo_field], expand=True)
+        personas_inputs.append((nombre_field, sueldo_field))
+        personas_column.controls.append(row)
+        page.update()
 
-    persona2_nombre = ft.TextField(label='Nombre', input_filter=ft.TextOnlyInputFilter())
-    persona2_sueldo = ft.TextField(label='Sueldo', input_filter=ft.NumbersOnlyInputFilter())
+    # generar gráfico y guardar en shared_data
+    def on_generate(e):
+        shared_data.alquiler = float(alquiler.value or 0)
+        shared_data.values = {}
 
-    persona3_nombre = ft.TextField(label='Nombre', input_filter=ft.TextOnlyInputFilter())
-    persona3_sueldo = ft.TextField(label='Sueldo', input_filter=ft.NumbersOnlyInputFilter())
+        for nombre_field, sueldo_field in personas_inputs:
+            nombre = nombre_field.value.strip()
+            sueldo = float(sueldo_field.value or 0)
+            if nombre:
+                shared_data.values[nombre] = sueldo
 
-    valores = {
-        persona1_nombre.value: persona1_sueldo.value,
-        persona2_nombre.value: persona2_sueldo.value,
-        persona3_nombre.value: persona3_sueldo.value,
-    }
+        if shared_data.values and alquiler.value:
+            print("Navigating to:", page.route, "Views stack:", [v.route for v in page.views])
+            page.go("/chart")
+        else:
+            page.open(ft.SnackBar(ft.Text("Debe ingresar al menos una persona y el alquiler.")))
+            page.update()
 
-    chart_container = ft.Column()
+    # 3 personas por defecto
+    for _ in range(3):
+        agregar_persona()
 
-    boton = ft.ElevatedButton(
-        'Generar Gráfico',
-        on_click=lambda e: generate_plot(
-                            page,
-                            valores,
-                            alquiler,
-                            chart_container
-                            )
-                        )
+    boton_agregar = ft.ElevatedButton("Agregar persona", icon=ft.Icons.ADD, on_click=agregar_persona)
+    boton_generar = ft.ElevatedButton("Generar Gráfico", icon=ft.Icons.IMAGE ,on_click=on_generate)
 
-    page.add(
-        ft.Column([
-            alquiler,
-            ft.Row([
-                persona1_nombre,
-                persona1_sueldo
-            ], expand=True),
-            ft.Row([
-                persona2_nombre,
-                persona2_sueldo
-            ], expand=True),
-            ft.Row([
-                persona3_nombre,
-                persona3_sueldo
-            ], expand=True),
-            boton,
-            chart_container
-        ],
-        expand=True
-        )
+    return ft.Column([
+        alquiler,
+        boton_agregar,
+        personas_column,
+        boton_generar,
+    ],
+    scroll=ft.ScrollMode.AUTO,
+    spacing=20
     )
