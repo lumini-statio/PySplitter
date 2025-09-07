@@ -21,7 +21,7 @@ def config_view(page: ft.Page, shared_data: SharedData):
         page, persons_inputs, persons_column, e
     ))
     boton_generar = ft.ElevatedButton("Generar Gráfico", icon=ft.Icons.IMAGE ,on_click=lambda e: on_generate(
-        page, shared_data, alquiler, persons_inputs
+        page, shared_data, alquiler, persons_inputs, e
     ))
 
     return ft.Column([
