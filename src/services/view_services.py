@@ -20,11 +20,14 @@ def append_person(
 def on_generate(
         page: ft.Page,
         shared_data: SharedData,
+        show_as: ft.Dropdown,
         alquiler: ft.TextField,
-        persons_inputs: list, e
+        persons_inputs: list,
+        e
     ) -> None:
     shared_data.alquiler = float(alquiler.value or 0)
     shared_data.values = {}
+    shared_data.show_as = show_as.value
 
     for nombre_field, sueldo_field in persons_inputs:
         nombre = nombre_field.value.strip()
@@ -33,7 +36,6 @@ def on_generate(
             shared_data.values[nombre] = sueldo
 
     if shared_data.values and alquiler.value:
-        print("Navigating to:", page.route, "Views stack:", [v.route for v in page.views])
         page.go("/chart")
     else:
         page.open(ft.SnackBar(ft.Text("Debe ingresar al menos una persona y el alquiler.")))

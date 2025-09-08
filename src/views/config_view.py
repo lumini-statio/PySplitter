@@ -6,6 +6,15 @@ from src.services.view_services import append_person, on_generate
 def config_view(page: ft.Page, shared_data: SharedData):
     alquiler = ft.TextField(label='Alquiler', input_filter=ft.NumbersOnlyInputFilter())
 
+    show_as = ft.Dropdown(
+        label='Show as',
+        options=[
+            ft.DropdownOption(key='Peso', text='$'),
+            ft.DropdownOption(key='Percentage', text='%')
+            ],
+        #expand=True
+        )
+
     persons_column = ft.Column(spacing=20)
     persons_inputs = []
 
@@ -21,12 +30,15 @@ def config_view(page: ft.Page, shared_data: SharedData):
         page, persons_inputs, persons_column, e
     ))
     boton_generar = ft.ElevatedButton("Generar Gráfico", icon=ft.Icons.IMAGE ,on_click=lambda e: on_generate(
-        page, shared_data, alquiler, persons_inputs, e
+        page, shared_data, show_as, alquiler, persons_inputs, e
     ))
 
     return ft.Column([
-        alquiler,
-        boton_agregar,
+        ft.Row([
+            alquiler,
+            boton_agregar,
+            show_as
+        ], expand=True),
         persons_column,
         boton_generar,
     ],

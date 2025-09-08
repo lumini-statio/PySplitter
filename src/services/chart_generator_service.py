@@ -1,7 +1,11 @@
 import plotly.graph_objs as go
 
 
-def calculate_charts(alquiler: float, values: dict) -> go.Figure:
+def calculate_charts(
+        alquiler: float,
+        values: dict,
+        show_as: str
+    ) -> go.Figure:
     nombres_list = list(values.keys())
     sueldos = list(values.values())
     porcentajes = []
@@ -20,27 +24,30 @@ def calculate_charts(alquiler: float, values: dict) -> go.Figure:
         x=nombres_list,
         y=sueldos,
         name='Sueldos',
-        text=[f'{n}' for n in values.values()],
-        marker=dict(color='skyblue')
+        text=[f'${n}' for n in values.values()],
+        textposition='outside',
+        marker=dict(color='skyblue'),
     )
 
-    trace_porcentaje = go.Bar(
-        x=nombres_list,
-        y=dinero_correspondido,
-        name='Porcentaje Correspondido',
-        marker=dict(color='lightgreen'),
-        text=[f'{p}%' for p in porcentajes],
-        textfont=dict(size=12),
-    )
-    
-    trace_dinero = go.Bar(
-        x=nombres_list,
-        y=dinero_correspondido,
-        name='Dinero Correspondido',
-        marker=dict(color='violet'),
-        text=[f'{d}' for d in dinero_correspondido],
-        textposition='outside'
-    )
+    if 'Percentage' in show_as:
+        trace_dinero = go.Bar(
+            x=nombres_list,
+            y=dinero_correspondido,
+            name='Porcentaje Correspondido',
+            marker=dict(color='lightgreen'),
+            text=[f'{p}%' for p in porcentajes],
+            textposition='outside',
+            textfont=dict(size=12),
+        )
+    elif 'Peso' in show_as:
+        trace_dinero = go.Bar(
+            x=nombres_list,
+            y=dinero_correspondido,
+            name='Dinero Correspondido',
+            marker=dict(color='violet'),
+            text=[f'${d}' for d in dinero_correspondido],
+            textposition='outside',
+        )
 
     layout = go.Layout(
         title='Comparación de Sueldos y Distribución del Dinero del Alquiler',
@@ -49,6 +56,6 @@ def calculate_charts(alquiler: float, values: dict) -> go.Figure:
         barmode='group'
     )
 
-    fig = go.Figure(data=[trace_sueldos, trace_porcentaje, trace_dinero], layout=layout)
+    fig = go.Figure(data=[trace_sueldos, trace_dinero], layout=layout)
 
     return fig
