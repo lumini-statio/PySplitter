@@ -1,7 +1,6 @@
 import flet as ft
 from flet.plotly_chart import PlotlyChart
 from src.services.chart_generator_service import calculate_charts
-from src.services.view_services import on_save_result
 from src.models.data import SharedData
 
 

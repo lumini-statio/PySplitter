@@ -1,6 +1,5 @@
 import flet as ft
 from src.models.data import SharedData
-import base64
 
 
 def append_person(
