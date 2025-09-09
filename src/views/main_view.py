@@ -17,13 +17,15 @@ def main(page: ft.Page):
 
     shared_data = SharedData()
 
-    def route_change(e: ft.RouteChangeEvent):
+    async def route_change(e: ft.RouteChangeEvent):
+        print(page.route)
+        
         if page.views and page.views[-1].route == page.route:
             return
         
         page.views.clear()
 
-        # vista formilario
+        # form view
         page.views.append(
             ft.View(
                 "/",
@@ -46,7 +48,7 @@ def main(page: ft.Page):
                             title=ft.Text("Gráfico"),
                             leading=ft.IconButton(ft.Icons.ARROW_BACK, on_click=lambda _: page.go("/"))
                         ),
-                        chart_view(page, shared_data),
+                        await chart_view(page, shared_data),
                     ]
                 )
             )

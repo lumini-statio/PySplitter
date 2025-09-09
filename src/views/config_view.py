@@ -12,7 +12,6 @@ def config_view(page: ft.Page, shared_data: SharedData):
             ft.DropdownOption(key='Peso', text='$'),
             ft.DropdownOption(key='Percentage', text='%')
             ],
-        #expand=True
         )
 
     persons_column = ft.Column(spacing=20)
