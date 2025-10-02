@@ -23,32 +23,41 @@ def calculate_charts(
     trace_sueldos = go.Bar(
         x=nombres_list,
         y=sueldos,
-        name='Sueldos',
+        name='Salaries',
         text=[f'${n}' for n in values.values()],
         textposition='outside',
         marker=dict(color='skyblue'),
     )
-
+    
     if 'Percentage' in show_as:
+        signo = '%'
+    elif 'Dolar' in show_as:
+        signo = '$'
+    elif 'Euro' in show_as:
+        signo = '€'
+    elif 'Yen' in show_as:
+        signo = '¥'
+
+    if signo in ('$','€','¥'):
+        trace_dinero = go.Bar(
+            x=nombres_list,
+            y=dinero_correspondido,
+            name='Dinero Correspondido',
+            marker=dict(color='lightgreen'),
+            text=[f'{signo}{d}' for d in dinero_correspondido],
+            textposition='outside',
+        )
+    elif signo in '%':
         trace_dinero = go.Bar(
             x=nombres_list,
             y=dinero_correspondido,
             name='Porcentaje Correspondido',
             marker=dict(color='lightgreen'),
-            text=[f'{p}%' for p in porcentajes],
+            text=[f'{p}{signo}' for p in porcentajes],
             textposition='outside',
             textfont=dict(size=12),
         )
-    elif 'Peso' in show_as:
-        trace_dinero = go.Bar(
-            x=nombres_list,
-            y=dinero_correspondido,
-            name='Dinero Correspondido',
-            marker=dict(color='violet'),
-            text=[f'${d}' for d in dinero_correspondido],
-            textposition='outside',
-        )
-
+    
     layout = go.Layout(
         title='Comparación de Sueldos y Distribución del Dinero del Alquiler',
         xaxis=dict(title='Empleado'),

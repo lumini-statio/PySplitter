@@ -8,8 +8,8 @@ def append_person(
         persons_column: ft.Column,
         e=None
     ) -> None:
-    nombre_field = ft.TextField(label="Nombre", input_filter=ft.TextOnlyInputFilter(), expand=True)
-    sueldo_field = ft.TextField(label="Sueldo", input_filter=ft.NumbersOnlyInputFilter(), expand=True)
+    nombre_field = ft.TextField(label="Name", input_filter=ft.TextOnlyInputFilter(), expand=True, border_color=ft.Colors.WHITE)
+    sueldo_field = ft.TextField(label="Salary", input_filter=ft.NumbersOnlyInputFilter(), expand=True, border_color=ft.Colors.WHITE)
 
     row = ft.Row([nombre_field, sueldo_field], expand=True)
     persons_inputs.append((nombre_field, sueldo_field))
@@ -28,6 +28,7 @@ def on_generate(
     shared_data.alquiler = float(alquiler.value or 0)
     shared_data.values = {}
     shared_data.show_as = show_as.value
+    
 
     for nombre_field, sueldo_field in persons_inputs:
         nombre = nombre_field.value.strip()
@@ -38,5 +39,5 @@ def on_generate(
     if shared_data.values and alquiler.value:
         page.go("/chart")
     else:
-        page.open(ft.SnackBar(ft.Text("Debe ingresar al menos una persona y el alquiler.")))
+        page.open(ft.SnackBar(ft.Text("At least one person and the rent must enter.")))
         page.update()
