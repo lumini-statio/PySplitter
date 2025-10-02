@@ -1,11 +1,11 @@
 import flet as ft
 from src.views.config_view import config_view
-from src.views.chart_view import chart_view
+from src.views.data_view import chart_view
 from src.models.data import SharedData
 
 
 def main(page: ft.Page):
-    page.title = "Cálculo del Alquiler"
+    page.title = "Expense Divider"
     page.window_width = 800
     page.window_height = 600
     page.window_resizable = True
@@ -31,21 +31,21 @@ def main(page: ft.Page):
                 "/",
                 scroll=ft.ScrollMode.AUTO,
                 controls=[
-                    ft.AppBar(title=ft.Text("Configuración")),
+                    ft.AppBar(title=ft.Text("Configuration")),
                     config_view(page, shared_data),
                 ],
                 can_pop=False
             )
         )
 
-        # vista del gráfico
-        if page.route == "/chart":
+        # table view
+        if page.route == "/data":
             page.views.append(
                 ft.View(
-                    "/chart",
+                    "/data",
                     controls=[
                         ft.AppBar(
-                            title=ft.Text("Gráfico"),
+                            title=ft.Text("Data Table"),
                             leading=ft.IconButton(ft.Icons.ARROW_BACK, on_click=lambda _: page.go("/"))
                         ),
                         await chart_view(page, shared_data),

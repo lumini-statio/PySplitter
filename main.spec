@@ -1,32 +1,29 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 
-plotly_datas = collect_all('plotly')
-kaleido_datas = collect_all('kaleido')
-
-datas = []
-binaries = []
-hiddenimports = [
-    'plotly',
-    'plotly.graph_objs',
-    'kaleido',
-    'flet',
-    'flet-desktop',
-]
-tmp_ret = collect_all('models')
-datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
-tmp_ret = collect_all('services')
-datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
-tmp_ret = collect_all('views')
-datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
-
-
 a = Analysis(
     ['main.py'],
     pathex=[],
-    binaries=binaries,
-    datas=datas,
-    hiddenimports=hiddenimports,
+    binaries=[],
+    datas=[
+        ('src/', 'src'),
+        ('src/models/*.py', 'models'),
+        ('src/services/*.py', 'services'),
+        ('src/views/*.py', 'views'),
+    ],
+    hiddenimports=[
+        'flet',
+        'flet_desktop',
+        'src',
+        'src.views',
+        'src.views.main_view',
+        'src.views.config_view',
+        'src.views.chart_view',
+        'src.services',
+        'src.services.view_services',
+        'src.models',
+        'src.models.data',
+    ],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -34,15 +31,17 @@ a = Analysis(
     noarchive=False,
     optimize=0,
 )
+
+# Agregar datos automáticamente usando hooks
 pyz = PYZ(a.pure)
 
 exe = EXE(
     pyz,
     a.scripts,
-    a.binaries,
-    a.datas,
     [],
-    name='main',
+    a.datas,
+    exclude_binaries=True,
+    name='PySplitter',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
@@ -55,5 +54,16 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['icon.ico'],
+    icon='icon.ico',
+)
+
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.zipfiles,
+    a.datas,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name='PySplitter',
 )

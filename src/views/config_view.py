@@ -13,8 +13,6 @@ def config_view(page: ft.Page, shared_data: SharedData):
         options=[
             ft.DropdownOption(key='Dolar', text='$'),
             ft.DropdownOption(key='Euro', text='€'),
-            ft.DropdownOption(key='Yen', text='¥'),
-            ft.DropdownOption(key='Percentage', text='%'),
             ],
         value='Dolar',
         border_color=ft.Colors.WHITE
@@ -34,15 +32,15 @@ def config_view(page: ft.Page, shared_data: SharedData):
     boton_agregar = ft.ElevatedButton("Add Person", icon=ft.Icons.ADD, on_click=lambda e: append_person(
         page, persons_inputs, persons_column, e
     ))
-    boton_generar = ft.ElevatedButton("Generate Chart", icon=ft.Icons.IMAGE ,on_click=lambda e: on_generate(
+    boton_generar = ft.ElevatedButton("Generate Data", icon=ft.Icons.IMAGE ,on_click=lambda e: on_generate(
         page, shared_data, show_as, alquiler, persons_inputs, e
     ))
 
     return ft.Column([
         ft.Row([
             alquiler,
+            show_as,
             boton_agregar,
-            show_as
         ], expand=True),
         persons_column,
         boton_generar,
