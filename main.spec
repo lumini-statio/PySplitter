@@ -1,9 +1,18 @@
 # -*- mode: python ; coding: utf-8 -*-
 from PyInstaller.utils.hooks import collect_all
 
+plotly_datas = collect_all('plotly')
+kaleido_datas = collect_all('kaleido')
+
 datas = []
 binaries = []
-hiddenimports = []
+hiddenimports = [
+    'plotly',
+    'plotly.graph_objs',
+    'kaleido',
+    'flet',
+    'flet-desktop',
+]
 tmp_ret = collect_all('models')
 datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
 tmp_ret = collect_all('services')
